@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Surprise For You ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe4e1, #ffb6c1);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+        }
+        h1 { color: #d63384; font-size: 24px; margin-bottom: 20px; }
+        input {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #ff69b4;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
+        button {
+            background: #ff477e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(255, 71, 126, 0.4);
+            transition: 0.3s;
+        }
+        button:hover { transform: scale(1.05); background: #ff2a65; }
+        .hidden { display: none; }
+        .compliment-box { font-size: 18px; color: #333; line-height: 1.6; }
+        .compliment-line { margin: 15px 0; font-weight: bold; color: #4a4a4a; }
+        .highlight { color: #ff1493; }
+        
+        /* Floating Elements Style */
+        .element {
+            position: absolute;
+            bottom: -50px;
+            font-size: 30px;
+            animation: floatUp 5s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Tag: Yahan apni song file ka naam dalein -->
+    <audio id="bgMusic" loop>
+        <source src="/home/kali/Desktop/the_mountain-happy-birthday-508020 (1).mp3" type="audio/mp3">
+    </audio>
+
+    <!-- SCREEN 1: Naam Enter Karne Ke Liye -->
+    <div class="container" id="screen1">
+        <h1>💖 Enter Your Beautiful Name 💖</h1>
+        <input type="text" id="gfName" placeholder="Type your name here...">
+        <br>
+        <button onclick="startSurprise()">Unlock Surprise 🎁</button>
+    </div>
+
+    <!-- SCREEN 2: Taarif aur Wishes -->
+    <div class="container hidden" id="screen2">
+        <h1 id="wishTitle">🎉 Happy Birthday! 🎉</h1>
+        <div class="compliment-box" id="compliments"></div>
+    </div>
+
+    <script>
+        function startSurprise() {
+            let name = document.getElementById("gfName").value.trim();
+            if (name === "") {
+                alert("Please enter your name! 😊");
+                return;
+            }
+
+            // Music Play karna
+            let music = document.getElementById("bgMusic");
+            music.play().catch(error => console.log("Autoplay blocked, playing on click"));
+
+            // Screen Change karna
+            document.getElementById("screen1").classList.add("hidden");
+            document.getElementById("screen2").classList.remove("hidden");
+
+            // Title mein naam add karna
+            document.getElementById("wishTitle").innerHTML = `🎉 Happy Birthday, <span class="highlight">${name}</span>! 🎉`;
+
+            // Taarif wali lines (Aap inhe apne hisab se change kar sakte hain)
+            let lines = [
+                `✨ ${name}, you are special for me.`,
+                `❤️ ${name}, tum mere liye kitni special ho, yeh lafzon mein bayaan nahi ho sakta.`,
+                `🌹 Is poore universe mein ${name} jaisa dil kisi ka nahi hai.`,
+                `🌟 ${name}, meri life ko itna beautiful banane ke liye Thank You!`,
+                `🎂 Wishing you the happiest birthday ever, my love`
+            ];
+
+            let box = document.getElementById("compliments");
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    let p = document.createElement("p");
+                    p.className = "compliment-line";
+                    p.innerHTML = line;
+                    box.appendChild(p);
+                }, index * 1500); // Har line 1.5 second ke baad aayegi
+            });
+
+            // Balloons aur Flowers udana shuru karna
+            setInterval(createFloatingElement, 300);
+        }
+
+        function createFloatingElement() {
+            const items = ['🎈', '🎈', '🌸', '🌹', '🌺', '✨', '💝'];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            
+            const element = document.createElement('div');
+            element.className = 'element';
+            element.innerText = randomItem;
+            
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = (Math.random() * 3 + 3) + 's'; // 3 to 6 seconds
+            element.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            
+            document.body.appendChild(element);
+            
+            setTimeout(() => {
+                element.remove();
+            }, 6000);
+        }
+    </script>
+</body>
+</html>
